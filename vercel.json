@@ -6,7 +6,7 @@
       "use": "@vercel/static-build",
       "config": {
         "distDir": "web-build",
-        "buildCommand": "node node_modules/expo/bin/cli.js export:web"
+        "buildCommand": "npx expo-cli export:web"
       }
     }
   ],
