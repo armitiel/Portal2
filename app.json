@@ -1,0 +1,45 @@
+{
+  "expo": {
+    "name": "Portal Smart Checkout",
+    "slug": "portal",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "backgroundColor": "#171D26"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.armitiel.portal",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#171D26"
+      },
+      "package": "com.armitiel.portal"
+    },
+    "web": {
+      "bundler": "metro"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "54c8137b-53f3-4be0-af5c-5e0372a335f9"
+      }
+    },
+    "owner": "armitiel",
+    "updates": {
+      "enabled": true,
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/54c8137b-53f3-4be0-af5c-5e0372a335f9"
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    }
+  }
+}

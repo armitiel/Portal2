@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Icons for Portal App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        canvas {
+            border: 1px solid #ddd;
+            margin: 10px 0;
+        }
+        button {
+            background-color: #3A6EF2;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #2c54bb;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .preview-item {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Portal App Icon Generator</h1>
+        <p>This tool generates all the necessary icons for the Portal React Native app.</p>
+        
+        <div class="preview">
+            <div class="preview-item">
+                <h2>Favicon (32x32)</h2>
+                <canvas id="favicon" width="32" height="32"></canvas><br>
+                <button onclick="downloadCanvas('favicon', 'favicon.png')">Download favicon.png</button>
+            </div>
+            
+            <div class="preview-item">
+                <h2>App Icon (1024x1024)</h2>
+                <canvas id="icon" width="200" height="200"></canvas><br>
+                <button onclick="downloadCanvas('icon', 'icon.png')">Download icon.png</button>
+            </div>
+            
+            <div class="preview-item">
+                <h2>Splash Screen (1242x2436)</h2>
+                <canvas id="splash" width="200" height="300"></canvas><br>
+                <button onclick="downloadCanvas('splash', 'splash.png')">Download splash.png</button>
+            </div>
+            
+            <div class="preview-item">
+                <h2>Adaptive Icon (1024x1024)</h2>
+                <canvas id="adaptive-icon" width="200" height="200"></canvas><br>
+                <button onclick="downloadCanvas('adaptive-icon', 'adaptive-icon.png')">Download adaptive-icon.png</button>
+            </div>
+        </div>
+        
+        <h2>Instructions</h2>
+        <ol>
+            <li>Click each "Download" button to save the corresponding image</li>
+            <li>Move all downloaded images to the "ReactNativeApp/assets/images/" folder</li>
+        </ol>
+    </div>
+    
+    <script>
+        // Function to draw the Portal logo
+        function drawPortalLogo(ctx, centerX, centerY, radius, color) {
+            // Outer circle
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+            ctx.strokeStyle = color;
+            ctx.lineWidth = radius * 0.12;
+            ctx.stroke();
+            
+            // Middle circle
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius * 0.75, 0, 2 * Math.PI);
+            ctx.strokeStyle = color;
+            ctx.lineWidth = radius * 0.12;
+            ctx.stroke();
+            
+            // Inner circle (filled)
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius * 0.4, 0, 2 * Math.PI);
+            ctx.fillStyle = color;
+            ctx.fill();
+        }
+        
+        // Initialize all canvases
+        window.onload = function() {
+            // Favicon
+            const faviconCanvas = document.getElementById('favicon');
+            const faviconCtx = faviconCanvas.getContext('2d');
+            faviconCtx.fillStyle = '#171D26';
+            faviconCtx.fillRect(0, 0, faviconCanvas.width, faviconCanvas.height);
+            drawPortalLogo(faviconCtx, faviconCanvas.width/2, faviconCanvas.height/2, faviconCanvas.width/3, 'white');
+            
+            // App Icon
+            const iconCanvas = document.getElementById('icon');
+            const iconCtx = iconCanvas.getContext('2d');
+            iconCtx.fillStyle = '#171D26';
+            iconCtx.fillRect(0, 0, iconCanvas.width, iconCanvas.height);
+            drawPortalLogo(iconCtx, iconCanvas.width/2, iconCanvas.height/2, iconCanvas.width/3, 'white');
+            
+            // Splash Screen
+            const splashCanvas = document.getElementById('splash');
+            const splashCtx = splashCanvas.getContext('2d');
+            splashCtx.fillStyle = '#171D26';
+            splashCtx.fillRect(0, 0, splashCanvas.width, splashCanvas.height);
+            
+            // Logo in splash
+            drawPortalLogo(splashCtx, splashCanvas.width/2, splashCanvas.height/3, splashCanvas.width/5, 'white');
+            
+            // Text in splash
+            splashCtx.fillStyle = 'white';
+            splashCtx.font = 'bold 20px Arial';
+            splashCtx.textAlign = 'center';
+            splashCtx.fillText('Smart Checkout', splashCanvas.width/2, splashCanvas.height/2);
+            
+            // Adaptive Icon
+            const adaptiveIconCanvas = document.getElementById('adaptive-icon');
+            const adaptiveIconCtx = adaptiveIconCanvas.getContext('2d');
+            adaptiveIconCtx.fillStyle = '#171D26';
+            adaptiveIconCtx.fillRect(0, 0, adaptiveIconCanvas.width, adaptiveIconCanvas.height);
+            drawPortalLogo(adaptiveIconCtx, adaptiveIconCanvas.width/2, adaptiveIconCanvas.height/2, adaptiveIconCanvas.width/3, 'white');
+        };
+        
+        // Function to download a canvas as an image
+        function downloadCanvas(canvasId, filename) {
+            const canvas = document.getElementById(canvasId);
+            
+            // For favicon and icon, we need to create a larger canvas first
+            let downloadCanvas = canvas;
+            
+            if (canvasId === 'icon' || canvasId === 'adaptive-icon') {
+                // Create a 1024x1024 canvas
+                const tempCanvas = document.createElement('canvas');
+                tempCanvas.width = 1024;
+                tempCanvas.height = 1024;
+                const tempCtx = tempCanvas.getContext('2d');
+                
+                // Fill with background color
+                tempCtx.fillStyle = '#171D26';
+                tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+                
+                // Draw the logo
+                drawPortalLogo(tempCtx, tempCanvas.width/2, tempCanvas.height/2, tempCanvas.width/3, 'white');
+                
+                downloadCanvas = tempCanvas;
+            } else if (canvasId === 'splash') {
+                // Create a 1242x2436 canvas (iPhone X dimensions)
+                const tempCanvas = document.createElement('canvas');
+                tempCanvas.width = 1242;
+                tempCanvas.height = 2436;
+                const tempCtx = tempCanvas.getContext('2d');
+                
+                // Fill with background color
+                tempCtx.fillStyle = '#171D26';
+                tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+                
+                // Draw the logo
+                drawPortalLogo(tempCtx, tempCanvas.width/2, tempCanvas.height/3, tempCanvas.width/5, 'white');
+                
+                // Text in splash
+                tempCtx.fillStyle = 'white';
+                tempCtx.font = 'bold 80px Arial';
+                tempCtx.textAlign = 'center';
+                tempCtx.fillText('Smart Checkout', tempCanvas.width/2, tempCanvas.height/2);
+                
+                downloadCanvas = tempCanvas;
+            }
+            
+            // Create download link
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = downloadCanvas.toDataURL('image/png');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+</html>
