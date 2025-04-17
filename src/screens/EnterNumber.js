@@ -318,7 +318,7 @@ const styles = StyleSheet.create({
 	image: {
 		width: 136,
 		height: 42,
-		marginLeft: 10, // Zmniejszony odstęp między przyciskiem a logiem
+		marginLeft: 30, // Zwiększony odstęp między przyciskiem a logiem
 	},
 	image2: {
 		width: 45,

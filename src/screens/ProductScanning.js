@@ -3,9 +3,20 @@ import { SafeAreaView, View, ScrollView, Text, Image, TouchableOpacity, StyleShe
 export default ({ setCurrentScreen }) => {
 	return (
 		<SafeAreaView style={styles.container}>
-			<ScrollView  style={styles.scrollView}>
-				<View style={styles.row}>
-					<View style={styles.row2}>
+			<ScrollView style={styles.scrollView}>
+				<View style={{
+					flexDirection: "row",
+					alignItems: "flex-start",
+					paddingHorizontal: 25,
+					marginVertical: 25,
+				}}>
+					<View style={{
+						flex: 1,
+						flexDirection: "row",
+						justifyContent: "flex-start",
+						alignItems: "center",
+						marginRight: 12,
+					}}>
 						<TouchableOpacity
 							style={styles.view}
 							onPress={() => setCurrentScreen('enterNumber')}
@@ -15,14 +26,20 @@ export default ({ setCurrentScreen }) => {
 							</Text>
 						</TouchableOpacity>
 						<Image
-							source = {{uri: "https://storage.googleapis.com/tagjs-prod.appspot.com/v1/ZNiYplSqim/y9v05fs5_expires_30_days.png"}} 
+							source = {{uri: "https://storage.googleapis.com/tagjs-prod.appspot.com/v1/ZNiYplSqim/y9v05fs5_expires_30_days.png"}}
 							resizeMode = {"stretch"}
-							style={styles.image}
+							style={{
+								width: 136,
+								height: 42,
+								marginLeft: 30,
+							}}
 						/>
 					</View>
-					<Text style={styles.text2}>
-						{"Cart Summary"}
-					</Text>
+					<View style={{
+						width: 487,
+						height: 60,
+					}}>
+					</View>
 				</View>
 				<View style={styles.row3}>
 					<View style={styles.view2}>
@@ -107,7 +124,7 @@ export default ({ setCurrentScreen }) => {
 						</View>
 						<TouchableOpacity style={styles.button3} onPress={() => setCurrentScreen('id')}>
 							<Text style={styles.text14}>
-								{"Continue to ID Verification"}
+								{"Verify Age"}
 							</Text>
 						</TouchableOpacity>
 					</View>
@@ -122,7 +139,7 @@ const styles = StyleSheet.create({
 		backgroundColor: "#FFFFFF",
 	},
 	box: {
-		height: 519,
+		height: 519, // Restored to the original height
 		marginBottom: 10,
 	},
 	button: {
@@ -146,7 +163,10 @@ const styles = StyleSheet.create({
 		borderRadius: 11,
 		borderWidth: 1,
 		paddingVertical: 20,
-		paddingHorizontal: 189,
+		width: '100%', // Full width of container
+		alignItems: 'center', // Center text horizontally
+		justifyContent: 'center', // Center text vertically
+		marginTop: 10,
 		shadowColor: "#00000026",
 		shadowOpacity: 0.2,
 		shadowOffset: {
@@ -180,6 +200,7 @@ const styles = StyleSheet.create({
 		borderRadius: 11,
 		borderWidth: 1,
 		paddingVertical: 20,
+		paddingHorizontal: 12, // Reduced by half
 		marginBottom: 10,
 	},
 	column5: {
@@ -200,7 +221,7 @@ const styles = StyleSheet.create({
 	image: {
 		width: 136,
 		height: 42,
-		marginRight: 417,
+		marginLeft: 30, // Zwiększony odstęp między przyciskiem a logiem
 	},
 	image2: {
 		width: 87,
@@ -214,22 +235,21 @@ const styles = StyleSheet.create({
 	row: {
 		flexDirection: "row",
 		alignItems: "flex-start",
-		marginTop: 25,
-		marginBottom: 16,
+		marginVertical: 25, // Match EnterNumber.js margins
 		marginHorizontal: 25,
 	},
 	row2: {
 		flex: 1,
 		flexDirection: "row",
-		justifyContent: "space-between",
+		justifyContent: "flex-start", // Changed to match EnterNumber.js
 		alignItems: "center",
 		marginRight: 12,
 	},
 	row3: {
 		flexDirection: "row",
 		alignItems: "flex-start",
+		paddingHorizontal: 50, // Match EnterNumber.js
 		marginBottom: 25,
-		marginHorizontal: 25,
 	},
 	row4: {
 		flexDirection: "row",
@@ -242,7 +262,8 @@ const styles = StyleSheet.create({
 		backgroundColor: "#253141",
 		borderRadius: 11,
 		marginBottom: 375,
-		marginHorizontal: 20,
+		marginLeft: 12, // Reduced by half
+		marginRight: 12, // Reduced by half
 		shadowColor: "#00000040",
 		shadowOpacity: 0.3,
 		shadowOffset: {
@@ -251,6 +272,7 @@ const styles = StyleSheet.create({
 		},
 		shadowRadius: 2,
 		elevation: 2,
+		width: 'auto', // Allow width to adjust to content
 	},
 	row6: {
 		flexDirection: "row",
@@ -269,7 +291,10 @@ const styles = StyleSheet.create({
 		borderColor: "#E4B413",
 		borderRadius: 11,
 		borderWidth: 1,
-		marginHorizontal: 20,
+		marginLeft: 12, // Reduced by half
+		marginRight: 12, // Reduced by half
+		marginTop: 10,
+		marginBottom: 10,
 		shadowColor: "#00000026",
 		shadowOpacity: 0.2,
 		shadowOffset: {
@@ -278,6 +303,7 @@ const styles = StyleSheet.create({
 		},
 		shadowRadius: 4,
 		elevation: 4,
+		width: 'auto', // Allow width to adjust to content
 	},
 	scrollView: {
 		flex: 1,
@@ -392,7 +418,7 @@ const styles = StyleSheet.create({
 		borderRadius: 11,
 		borderWidth: 1,
 		padding: 20,
-		marginRight: 25,
+		marginRight: 0, // Remove right margin
 	},
 	view3: {
 		flex: 1,

@@ -1,37 +1,54 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { SafeAreaView, View, ScrollView, Image, TouchableOpacity, Text, StyleSheet, Platform } from "react-native";
 import EnterNumber from "./src/screens/EnterNumber";
 import ProductScanning from "./src/screens/ProductScanning";
+import AnimatedScreenContainer from "./src/components/AnimatedScreenContainer";
 
 export default (props) => {
 	const [currentScreen, setCurrentScreen] = useState('home');
+	const [previousScreen, setPreviousScreen] = useState(null);
+	const [isAnimating, setIsAnimating] = useState(false);
+	const [slideDirection, setSlideDirection] = useState('right');
 	
-	// Renderuj odpowiedni ekran na podstawie stanu
-	if (currentScreen === 'enterNumber') {
-		return <EnterNumber setCurrentScreen={setCurrentScreen} />;
-	}
+	// Track screen changes to determine animation direction
+	const handleScreenChange = (screenName) => {
+		if (currentScreen === screenName) return;
+		
+		// Define the navigation flow to determine direction
+		const screenOrder = ['home', 'enterNumber', 'productScanning', 'id'];
+		const currentIndex = screenOrder.indexOf(currentScreen);
+		const nextIndex = screenOrder.indexOf(screenName);
+		
+		// Determine if we're going forward or backward
+		const direction = nextIndex > currentIndex ? 'right' : 'left';
+		setSlideDirection(direction);
+		
+		// Start animation with new screen
+		setPreviousScreen(currentScreen);
+		setIsAnimating(true);
+		setCurrentScreen(screenName);
+		
+		// After animation duration, mark animation as complete
+		setTimeout(() => {
+			setIsAnimating(false);
+		}, 300); // Match animation duration
+	};
 	
-	// Obsługa ekranu ProductScanning
-	if (currentScreen === 'productScanning') {
-		return <ProductScanning setCurrentScreen={setCurrentScreen} />;
-	}
+	// Define the ID screen content
+	const IdScreen = () => (
+		<SafeAreaView style={{flex: 1, backgroundColor: '#171D26', justifyContent: 'center', alignItems: 'center'}}>
+			<Text style={{color: 'white', fontSize: 24, marginBottom: 20}}>ID Screen</Text>
+			<TouchableOpacity
+				style={{marginTop: 20, padding: 15}}
+				onPress={() => handleScreenChange('productScanning')}
+			>
+				<Text style={{color: 'white', fontSize: 16}}>Back</Text>
+			</TouchableOpacity>
+		</SafeAreaView>
+	);
 	
-	// Dodajmy obsługę ekranu Id
-	if (currentScreen === 'id') {
-		// Tymczasowy widok dla ekranu Id
-		return (
-			<SafeAreaView style={{flex: 1, backgroundColor: '#171D26', justifyContent: 'center', alignItems: 'center'}}>
-				<Text style={{color: 'white', fontSize: 24, marginBottom: 20}}>ID Screen</Text>
-				<TouchableOpacity
-					style={{marginTop: 20, padding: 15}}
-					onPress={() => setCurrentScreen('productScanning')}
-				>
-					<Text style={{color: 'white', fontSize: 16}}>Back</Text>
-				</TouchableOpacity>
-			</SafeAreaView>
-		);
-	}
-	return (
+	// Home screen content
+	const HomeScreen = () => (
 		<SafeAreaView style={styles.container}>
 			<ScrollView style={styles.mainContainer}>
 				<View style={styles.column}>
@@ -49,7 +66,7 @@ export default (props) => {
 				<View style={styles.column2}>
 					<TouchableOpacity
 						style={styles.button}
-						onPress={() => setCurrentScreen('enterNumber')}>
+						onPress={() => handleScreenChange('enterNumber')}>
 						<Text style={styles.text}>
 							{"Start "}
 						</Text>
@@ -80,7 +97,42 @@ export default (props) => {
 				)}
 			</ScrollView>
 		</SafeAreaView>
-	)
+	);
+	
+	// Function to render the appropriate screen content
+	const renderScreen = (screenName) => {
+		switch (screenName) {
+			case 'home':
+				return <HomeScreen />;
+			case 'enterNumber':
+				return <EnterNumber setCurrentScreen={handleScreenChange} />;
+			case 'productScanning':
+				return <ProductScanning setCurrentScreen={handleScreenChange} />;
+			case 'id':
+				return <IdScreen />;
+			default:
+				return null;
+		}
+	};
+	
+	return (
+		<View style={{flex: 1, backgroundColor: '#171D26'}}>
+			{/* Static screen (previous or current) */}
+			<View style={{position: 'absolute', width: '100%', height: '100%'}}>
+				{isAnimating ? renderScreen(previousScreen) : renderScreen(currentScreen)}
+			</View>
+			
+			{/* Animated incoming screen during transitions */}
+			{isAnimating && (
+				<AnimatedScreenContainer
+					isActive={true}
+					direction={slideDirection}
+				>
+					{renderScreen(currentScreen)}
+				</AnimatedScreenContainer>
+			)}
+		</View>
+	);
 }
 const styles = StyleSheet.create({
 	container: {
